@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html data-theme="light" lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Global KOL Network</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+        body { margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; background-color: #000000; overflow: hidden; }
+        .slide-container { width: 1280px; height: 720px; background-color: #000000; position: relative; overflow: hidden; display: flex; flex-direction: column; padding: 60px; }
+        .text-neon { color: #00F5B8; }
+        .bg-neon { background-color: #00F5B8; }
+        .border-neon { border-color: #00F5B8; }
+        .neon-glow { text-shadow: 0 0 10px rgba(0, 245, 184, 0.6); }
+        .box-glow { box-shadow: 0 0 15px rgba(0, 245, 184, 0.1); }
+        .map-container { position: absolute; top: 100px; left: 0; width: 100%; height: 620px; z-index: 0; opacity: 0.4; }
+        .map-dot { fill: #333; transition: fill 0.5s ease; }
+        .map-dot.active { fill: #00F5B8; filter: drop-shadow(0 0 4px rgba(0, 245, 184, 0.8)); }
+        .location-marker { position: absolute; width: 12px; height: 12px; background-color: #00F5B8; border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 10px #00F5B8; z-index: 10; }
+        .location-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #00F5B8; border-radius: 50%; animation: ripple 2s infinite; }
+        @keyframes ripple { 0% { width: 10px; height: 10px; opacity: 1; border-width: 2px; } 100% { width: 50px; height: 50px; opacity: 0; border-width: 0px; } }
+        .location-label { position: absolute; transform: translate(-50%, -100%); margin-top: -15px; background: rgba(0, 0, 0, 0.8); border: 1px solid #333; padding: 4px 8px; color: white; font-size: 10px; font-family: monospace; white-space: nowrap; opacity: 0.8; pointer-events: none; }
+        .location-label::after { content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%); border-width: 4px 4px 0; border-style: solid; border-color: #333 transparent transparent transparent; }
+        .stats-panel { background-color: rgba(10, 10, 10, 0.85); border: 1px solid #222; backdrop-filter: blur(5px); position: relative; z-index: 20; transition: all 0.3s ease; }
+        .stats-panel:hover { border-color: #00F5B8; box-shadow: 0 0 20px rgba(0, 245, 184, 0.1); }
+        .corner-piece { position: absolute; width: 8px; height: 8px; border-color: #00F5B8; border-style: solid; }
+        .tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+        .tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+        .bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+        .br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+        .scan-line { width: 100%; height: 2px; background: rgba(0, 245, 184, 0.1); position: absolute; top: 0; animation: scan 4s linear infinite; }
+        @keyframes scan { 0% { top: 0%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+    </style>
+</head>
+<body>
+<div class="slide-container">
+<div class="absolute inset-0 z-0 opacity-30">
+<svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><defs><pattern height="20" id="grid" patternunits="userSpaceOnUse" width="20"><circle cx="1" cy="1" fill="#222" r="1"></circle></pattern></defs><rect fill="url(#grid)" height="100%" width="100%"></rect></svg>
+</div>
+<div class="map-container flex items-center justify-center">
+<svg height="100%" style="transform: scale(1.1);" viewbox="0 0 1000 500" width="100%">
+<path d="M150,120 Q200,80 250,110 T300,150 T200,250 T100,200 T150,120 M160,100 L180,80 M350,100 Q400,90 450,110 T500,180 T450,250 T380,220 T350,100 M600,80 Q700,60 800,100 T850,180 T750,220 T650,200 T600,80 M650,280 Q750,260 800,300 T820,400 T700,420 T650,350 T650,280 M450,300 Q500,280 550,320 T520,420 T420,400 T450,300 M880,300 L900,350 L920,320 Z" fill="none" opacity="0" stroke="#222" stroke-width="1"></path>
+<g fill="#222">
+<circle class="map-dot active" cx="180" cy="120" r="3"></circle><circle class="map-dot active" cx="200" cy="130" r="3"></circle><circle class="map-dot active" cx="220" cy="110" r="3"></circle>
+<circle cx="150" cy="100" r="2"></circle><circle cx="170" cy="90" r="2"></circle><circle cx="240" cy="140" r="2"></circle><circle cx="190" cy="160" r="2"></circle>
+<circle cx="280" cy="300" r="2"></circle><circle cx="300" cy="350" r="2"></circle><circle cx="320" cy="280" r="2"></circle>
+<circle class="map-dot active" cx="480" cy="110" r="3"></circle><circle class="map-dot active" cx="500" cy="120" r="3"></circle><circle class="map-dot active" cx="490" cy="130" r="3"></circle>
+<circle cx="470" cy="100" r="2"></circle><circle cx="520" cy="115" r="2"></circle>
+<circle class="map-dot active" cx="750" cy="140" r="3"></circle><circle class="map-dot active" cx="780" cy="140" r="3"></circle><circle class="map-dot active" cx="800" cy="140" r="3"></circle>
+<circle cx="720" cy="180" r="2"></circle><circle cx="760" cy="190" r="2"></circle>
+<circle class="map-dot active" cx="760" cy="220" r="3"></circle><circle class="map-dot active" cx="780" cy="240" r="3"></circle>
+<circle cx="850" cy="320" r="2"></circle><circle cx="880" cy="350" r="2"></circle>
+</g>
+<path d="M220,110 Q350,50 480,110" fill="none" opacity="0.4" stroke="#00F5B8" stroke-dasharray="2,2" stroke-width="0.5"><animate attributename="stroke-dashoffset" dur="3s" from="100" repeatcount="indefinite" to="0"></animate></path>
+<path d="M500,120 Q620,80 750,140" fill="none" opacity="0.4" stroke="#00F5B8" stroke-dasharray="2,2" stroke-width="0.5"><animate attributename="stroke-dashoffset" dur="3s" from="100" repeatcount="indefinite" to="0"></animate></path>
+<path d="M220,110 Q500,200 780,140" fill="none" opacity="0.3" stroke="#00F5B8" stroke-dasharray="2,2" stroke-width="0.5"></path>
+</svg>
+</div>
+<div class="location-marker" style="top: 250px; left: 280px;"><div class="location-ring"></div><div class="location-label"><p>North America</p></div></div>
+<div class="location-marker" style="top: 250px; left: 620px;"><div class="location-ring"></div><div class="location-label"><p>Europe</p></div></div>
+<div class="location-marker" style="top: 280px; left: 980px;"><div class="location-ring"></div><div class="location-label"><p>East Asia</p></div></div>
+<div class="location-marker" style="top: 400px; left: 950px;"><div class="location-ring"></div><div class="location-label"><p>SEA</p></div></div>
+<div class="relative z-10 flex justify-between items-end mb-8">
+<div>
+<div class="flex items-center gap-3 mb-2"><div class="w-8 h-[2px] bg-[#00F5B8]"></div><p class="text-[#00F5B8] font-mono text-sm tracking-[0.2em] uppercase font-bold">Global KOL Network</p></div>
+<h1 class="text-white text-5xl font-bold tracking-tight mb-2">Expert-Led <span class="font-light text-gray-400">Technical Advocacy</span></h1>
+</div>
+<div class="text-right"><p class="text-gray-500 font-mono text-xs tracking-widest uppercase">Coverage: Pan-Global</p>
+<div class="flex gap-2 justify-end mt-1"><span class="px-2 py-0.5 border border-[#333] text-[10px] text-gray-400 font-mono">US</span><span class="px-2 py-0.5 border border-[#333] text-[10px] text-gray-400 font-mono">KR</span><span class="px-2 py-0.5 border border-[#333] text-[10px] text-gray-400 font-mono">JP</span><span class="px-2 py-0.5 border border-[#333] text-[10px] text-gray-400 font-mono">EU</span></div>
+</div>
+</div>
+<div class="relative z-20 flex flex-1 items-end pb-4">
+<div class="w-1/3 pr-8">
+<div class="stats-panel p-6 mb-6"><div class="corner-piece tl"></div><div class="corner-piece tr"></div><div class="corner-piece bl"></div><div class="corner-piece br"></div>
+<div class="grid grid-cols-1 gap-6">
+<div><div class="flex items-baseline gap-2 mb-1"><p class="text-5xl font-black text-white">1,000<span class="text-neon">+</span></p></div><p class="text-gray-400 text-sm uppercase tracking-wider font-mono border-t border-[#333] pt-2">Top-tier Creators</p></div>
+<div><div class="flex items-baseline gap-2 mb-1"><p class="text-5xl font-black text-white">100M<span class="text-neon">+</span></p></div><p class="text-gray-400 text-sm uppercase tracking-wider font-mono border-t border-[#333] pt-2">Technical Exposure</p></div>
+</div></div>
+<div class="space-y-4">
+<div class="flex items-start gap-3 group"><div class="mt-1 w-1.5 h-1.5 bg-[#333] rotate-45 group-hover:bg-[#00F5B8] transition-colors"></div><div class="text-gray-300 text-sm font-light leading-relaxed"><p><strong class="text-white block mb-1">Deep Sourcing</strong>Identifying and sourcing the most suitable domain specialists across diverse global AI markets.</p></div></div>
+<div class="flex items-start gap-3 group"><div class="mt-1 w-1.5 h-1.5 bg-[#333] rotate-45 group-hover:bg-[#00F5B8] transition-colors"></div><div class="text-gray-300 text-sm font-light leading-relaxed"><p><strong class="text-white block mb-1">Technical Onboarding</strong>Deep technical onboarding and professional feedback loops to ensure content accuracy.</p></div></div>
+<div class="flex items-start gap-3 group"><div class="mt-1 w-1.5 h-1.5 bg-[#333] rotate-45 group-hover:bg-[#00F5B8] transition-colors"></div><div class="text-gray-300 text-sm font-light leading-relaxed"><p><strong class="text-white block mb-1">Enterprise Connection</strong>Connecting your technology directly with enterprise decision-makers through trusted voices.</p></div></div>
+</div>
+</div>
+<div class="w-2/3 h-full relative">
+<div class="absolute bottom-28 right-0 flex gap-4">
+<div class="bg-black/80 border border-[#333] px-4 py-2 flex items-center gap-3 backdrop-blur-sm"><i class="fa-brands fa-youtube text-[#00F5B8]"></i><div><p class="text-white text-xs font-bold">Tech Tubers</p><p class="text-gray-500 text-[10px]">Deep Dive Reviews</p></div></div>
+<div class="bg-black/80 border border-[#333] px-4 py-2 flex items-center gap-3 backdrop-blur-sm"><i class="fa-brands fa-twitter text-[#00F5B8]"></i><div><p class="text-white text-xs font-bold">Thought Leaders</p><p class="text-gray-500 text-[10px]">Real-time Discourse</p></div></div>
+<div class="bg-black/80 border border-[#333] px-4 py-2 flex items-center gap-3 backdrop-blur-sm"><i class="fa-solid fa-code text-[#00F5B8]"></i><div><p class="text-white text-xs font-bold">Dev Evangelists</p><p class="text-gray-500 text-[10px]">Code Implementation</p></div></div>
+</div>
+</div>
+</div>
+<div class="relative z-20 pt-4 border-t border-[#222] flex justify-between items-center mt-4">
+<p class="text-[#444] text-[10px] font-mono tracking-widest">JE LABS NETWORK ARCHITECTURE</p>
+<div class="flex items-center gap-2"><i class="fa-solid fa-network-wired text-[#00F5B8] text-xs"></i><p class="text-[#444] text-[10px] font-mono tracking-widest">NODES ACTIVE</p></div>
+</div>
+<img alt="JE Labs Logo" class="absolute z-50" src="https://www.genspark.ai/api/files/s/vZEsqoBT" style="left: 1100px; top: 650px; width: 120px;"/>
+<div class="scan-line pointer-events-none"></div>
+</div>
+<script>document.addEventListener("keydown",function(e){if(e.key==="ArrowRight"||e.key==="ArrowDown"||e.key===" "){e.preventDefault();window.parent.postMessage("next","*")}else if(e.key==="ArrowLeft"||e.key==="ArrowUp"){e.preventDefault();window.parent.postMessage("prev","*")}});</script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Service Overview</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #000000;
+            overflow: hidden;
+        }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #000000;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+        }
+        .neon-text {
+            color: #00F5B8;
+            text-shadow: 0 0 10px rgba(0, 245, 184, 0.4);
+        }
+        .stat-card {
+            background-color: rgba(20, 20, 20, 0.5);
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            border-color: #00F5B8;
+            box-shadow: 0 0 15px rgba(0, 245, 184, 0.1);
+        }
+        .service-column {
+            border-top: 2px solid #333;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .service-column:hover {
+            border-top-color: #00F5B8;
+        }
+        .service-column:hover h3 {
+            color: #00F5B8;
+        }
+        .grid-line-h {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: rgba(50, 50, 50, 0.3);
+        }
+        .grid-line-v {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 1px;
+            background-color: rgba(50, 50, 50, 0.3);
+        }
+        .blinking-cursor {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .plus-marker {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+        }
+        .plus-marker::before, .plus-marker::after {
+            content: '';
+            position: absolute;
+            background-color: #00F5B8;
+        }
+        .plus-marker::before { top: 4px; left: 0; width: 10px; height: 2px; }
+        .plus-marker::after { top: 0; left: 4px; width: 2px; height: 10px; }
+    </style>
+</head>
+<body>
+<div class="slide-container">
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
+<div class="grid-line-h" style="top: 10%"></div>
+<div class="grid-line-h" style="top: 30%"></div>
+<div class="grid-line-h" style="top: 50%"></div>
+<div class="grid-line-h" style="top: 70%"></div>
+<div class="grid-line-h" style="top: 90%"></div>
+<div class="grid-line-v" style="left: 10%"></div>
+<div class="grid-line-v" style="left: 30%"></div>
+<div class="grid-line-v" style="left: 50%"></div>
+<div class="grid-line-v" style="left: 70%"></div>
+<div class="grid-line-v" style="left: 90%"></div>
+</div>
+<div class="absolute top-0 right-0 w-[400px] h-[400px] opacity-10 pointer-events-none">
+<svg height="100%" viewbox="0 0 400 400" width="100%">
+<circle cx="200" cy="200" fill="none" r="150" stroke="#00F5B8" stroke-dasharray="10 10" stroke-width="1"></circle>
+<circle cx="200" cy="200" fill="none" r="100" stroke="#00F5B8" stroke-width="2"></circle>
+</svg>
+</div>
+<div class="relative z-10 flex justify-between items-end mb-12">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-[2px] bg-[#00F5B8]"></div>
+<p class="text-[#00F5B8] font-mono text-sm tracking-[0.2em] uppercase font-bold">JE Labs Platform</p>
+</div>
+<h1 class="text-white text-5xl font-bold tracking-tight">Service Overview</h1>
+</div>
+<div class="flex gap-4">
+<div class="text-right">
+<p class="text-[#00F5B8] font-mono text-xs">DEPLOYMENT_STATUS</p>
+<p class="text-white font-mono text-sm">ACTIVE <span class="blinking-cursor">_</span></p>
+</div>
+</div>
+</div>
+<div class="relative z-10 grid grid-cols-3 gap-6 mb-12">
+<div class="stat-card p-6 flex items-center justify-between">
+<div><p class="text-white text-4xl font-black mb-1">100<span class="text-[#00F5B8] text-2xl">+</span></p><p class="text-gray-400 text-xs font-mono uppercase tracking-wider">High-Tech Deployments</p></div>
+<i class="fa-solid fa-rocket text-gray-700 text-3xl"></i>
+</div>
+<div class="stat-card p-6 flex items-center justify-between">
+<div><p class="text-white text-4xl font-black mb-1">10M<span class="text-[#00F5B8] text-2xl">+</span></p><p class="text-gray-400 text-xs font-mono uppercase tracking-wider">Cumulative Reach</p></div>
+<i class="fa-solid fa-globe text-gray-700 text-3xl"></i>
+</div>
+<div class="stat-card p-6 flex items-center justify-between">
+<div><p class="text-white text-4xl font-black mb-1">8<span class="text-[#00F5B8] text-2xl">+</span></p><p class="text-gray-400 text-xs font-mono uppercase tracking-wider">Infrastructure Platforms</p></div>
+<i class="fa-solid fa-server text-gray-700 text-3xl"></i>
+</div>
+</div>
+<div class="relative z-10 grid grid-cols-3 gap-12 flex-1">
+<div class="service-column pt-6">
+<div class="plus-marker top-[-6px] left-[-5px]"></div>
+<div class="mb-6">
+<div class="flex items-center gap-3 mb-2"><i class="fa-regular fa-lightbulb text-[#00F5B8]"></i><p class="text-gray-500 font-mono text-xs uppercase tracking-widest">Core Engine</p></div>
+<h3 class="text-white text-2xl font-bold transition-colors">Strategy &amp; Narrative</h3>
+</div>
+<div class="space-y-4">
+<div class="group"><p class="text-white font-medium mb-1 group-hover:text-[#00F5B8] transition-colors">Go-to-Market Strategy</p><p class="text-gray-500 text-sm font-light">Comprehensive market entry &amp; positioning</p></div>
+<div class="w-full h-[1px] bg-[#222]"></div>
+<div class="group"><p class="text-white font-medium mb-1 group-hover:text-[#00F5B8] transition-colors">Founder Storytelling</p><p class="text-gray-500 text-sm font-light">Personal branding aligned with tech vision</p></div>
+<div class="w-full h-[1px] bg-[#222]"></div>
+<div class="group"><p class="text-white font-medium mb-1 group-hover:text-[#00F5B8] transition-colors">Next-Gen Marketing Infra</p><p class="text-gray-500 text-sm font-light">Data-driven growth infrastructure setup</p></div>
+</div>
+</div>
+<div class="service-column pt-6">
+<div class="plus-marker top-[-6px] left-[-5px]"></div>
+<div class="mb-6">
+<div class="flex items-center gap-3 mb-2"><i class="fa-solid fa-bullhorn text-[#00F5B8]"></i><p class="text-gray-500 font-mono text-xs uppercase tracking-widest">Amplification</p></div>
+<h3 class="text-white text-2xl font-bold transition-colors">Distribution</h3>
+</div>
+<div class="space-y-4">
+<div class="group"><p class="text-white font-medium mb-1 group-hover:text-[#00F5B8] transition-colors">Media &amp; Thought Leadership</p><p class="text-gray-500 text-sm font-light">Global tech media coverage &amp; PR</p></div>
+<div class="w-full h-[1px] bg-[#222]"></div>
+<div class="group"><p class="text-white font-medium mb-1 group-hover:text-[#00F5B8] transition-colors">Global KOL Network</p><p class="text-gray-500 text-sm font-light">1,000+ top-tier tech creators collaboration</p></div>
+<div class="w-full h-[1px] bg-[#222]"></div>
+<div class="group"><p class="text-white font-medium mb-1 group-hover:text-[#00F5B8] transition-colors">Content Syndication</p><p class="text-gray-500 text-sm font-light">Multi-channel distribution strategy</p></div>
+</div>
+</div>
+<div class="service-column pt-6">
+<div class="plus-marker top-[-6px] left-[-5px]"></div>
+<div class="mb-6">
+<div class="flex items-center gap-3 mb-2"><i class="fa-solid fa-users text-[#00F5B8]"></i><p class="text-gray-500 font-mono text-xs uppercase tracking-widest">Sustainability</p></div>
+<h3 class="text-white text-2xl font-bold transition-colors">Ecosystem</h3>
+</div>
+<div class="space-y-4">
+<div class="group"><p class="text-white font-medium mb-1 group-hover:text-[#00F5B8] transition-colors">Developer Ecosystem</p><p class="text-gray-500 text-sm font-light">Hackathons, docs, and dev relations</p></div>
+<div class="w-full h-[1px] bg-[#222]"></div>
+<div class="group"><p class="text-white font-medium mb-1 group-hover:text-[#00F5B8] transition-colors">Ambassador Program</p><p class="text-gray-500 text-sm font-light">Community-led growth initiatives</p></div>
+<div class="w-full h-[1px] bg-[#222]"></div>
+<div class="group"><p class="text-white font-medium mb-1 group-hover:text-[#00F5B8] transition-colors">Community Growth</p><p class="text-gray-500 text-sm font-light">Organic user acquisition &amp; retention</p></div>
+</div>
+</div>
+</div>
+<div class="relative z-10 pt-6 mt-4 border-t border-[#222] flex justify-between items-center text-[#444] text-[10px] font-mono tracking-widest">
+<p>JE LABS INTEGRATED SOLUTIONS</p>
+<img alt="JE Labs Logo" class="w-24 object-contain" src="https://www.genspark.ai/api/files/s/vZEsqoBT"/>
+</div>
+</div>
+<script>document.addEventListener("keydown",function(e){if(e.key==="ArrowRight"||e.key==="ArrowDown"||e.key===" "){e.preventDefault();window.parent.postMessage("next","*")}else if(e.key==="ArrowLeft"||e.key==="ArrowUp"){e.preventDefault();window.parent.postMessage("prev","*")}});</script>
+</body>
+</html>
